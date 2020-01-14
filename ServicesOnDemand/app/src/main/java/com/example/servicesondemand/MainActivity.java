@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private Button loginButton;
     private TextView registerTextView;
     private FirebaseAuth firebaseAuth;
+    private String email, password;
 
     private void setupUIViews(){
         emailEditText = findViewById(R.id.emailEditText);
@@ -59,13 +60,19 @@ public class MainActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                validate(emailEditText.getText().toString(), passwordEditText.getText().toString());
+                email = emailEditText.getText().toString();
+                password = passwordEditText.getText().toString();
+                if(email.isEmpty() || password.isEmpty()){
+                    Toast.makeText(getApplicationContext(),"Please enter all the details!", Toast.LENGTH_SHORT).show();
+                }else{
+                    validate(email, password);
+                }
+
             }
         });
     }
 
     private void validate(String userName, String userPassword){
-
 
         firebaseAuth.signInWithEmailAndPassword(userName, userPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
